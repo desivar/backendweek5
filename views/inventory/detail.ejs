@@ -1,0 +1,13 @@
+<div class="title-container">
+    <% if (title) { %>
+        <div class="content__heading"><h1><%= title %></h1></div>
+        <%# if (someCondition) { %>
+            <%# messages() %>
+        <%# } %>
+        <% } else {
+            res.redirect('/')
+        } %>
+</div>
+
+<!-- Block: Vehicle Details Display -->
+<%- grid %>

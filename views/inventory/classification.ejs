@@ -1,0 +1,19 @@
+<% // Block: 3 Sections - Content Heading, Message, Inventory items display %>
+
+<div class="title-container">
+    <% if (title) { %>
+        <div class="content__heading"><h1><%= title %></h1></div>
+        <%# if (someCondition) { %>
+            <%# messages() %>
+        <%# } %>
+        <% } else {
+            res.redirect('/')
+        } %>
+</div>
+
+<% // Block: Message %>
+<!-- # this comment mark disables the code below. Will later be replaced with - -->
+<%# messages() %>
+
+<% // Block: Inventory Items Display %>
+<%- grid %>
