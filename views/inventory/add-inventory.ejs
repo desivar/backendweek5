@@ -1,184 +1,100 @@
-<!--**********************************
- *  Assignment 4: Add Inventort Form View
- * ********************************* -->
+<h1><%= title %></h1>
 
-<div class="title-container">
-    <% if (title) { %>
-        <div class="content__heading"><h1><%= title %></h1></div>
-        <%# if (someCondition) { %>
-            <%# messages() %>
-        <%# } %>
-        <% } else {
-            res.redirect('/')
-        } %>
-</div>
+<%- messages() %>
 
-<div class="message-container">
-    <% if (errors) { %>
-        <ul class="notice">
-       <% errors.array().forEach(error => { %>
-         <li><%= error.msg %></li>
-      <%  }) %>
-       </ul>
+<% if (errors) { %>
+  <div class="errors">
+    <ul>
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<div class="form-container">
+  <div class="form-instructions">All fields are required.</div>
+  <form action="/inv/add-inventory" method="post">
+    <div class="form-group">
+      <% if (classificationList && classificationList.includes('id="classificationList"')) { %>
+        <label for="classificationList">Classification:</label>
+        <%- classificationList %>
+      <% } else { %>
+        <p class="error">Error loading classifications. Please try again later.</p>
       <% } %>
-</div>
-
-<div class="main">
-    <!-- Block: login-container -->
-    <div class="cse-motor__form-container form-container">
-        <!-- Block: login-form -->
-        <form action="/inv/add-inventory" method="post" class="cse-motor__form" id="addForm">
-            <!-- Block Element: login-form__container -->
-            <div class="cse-motor-form__container">
-                <fieldset>
-                    <legend>Classification Information</legend>
-
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="classification_name" class="form__label">Classification Name:</label>
-                        <%- classificationList %>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Inventory Details</legend>
-
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_make" class="form__label">Make:</label>
-                        <input
-                        type="text"
-                        name="inv_make"
-                        class="form__input"
-                        required
-                        pattern="[A-Za-z0-9 ]{1,}"
-                        title="Make can only contain letters, numbers, and spaces."
-                        value="<%= locals.inv_make %>"
-                        placeholder="Min of 3 characters"
-                        />
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_model" class="form__label">Model:</label>
-                        <input
-                        type="text"
-                        name="inv_model"
-                        class="form__input"
-                        required
-                        pattern="[A-Za-z0-9 ]{1,}"
-                        title="Model can only contain letters, numbers, and spaces."
-                        value="<%= locals.inv_model %>"
-                        placeholder="Min of 3 characters"
-                        />
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_year" class="form__label">Year:</label>
-                        <input
-                        type="text"
-                        name="inv_year"
-                        class="form__input"
-                        required
-                        pattern="\d{4}"
-                        title="Please enter a valid year."
-                        value="<%= locals.inv_year %>"
-                        placeholder="4-digit year"
-                        />
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_description" class="form__label">Description:</label>
-                        <textarea
-                        name="inv_description"
-                        class="form__input"
-                        required
-                        value="<%= locals.inv_description %>"
-                        placeholder="A detailed description of the item"
-                        ></textarea>
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_image" class="form__label">Image:</label>
-                        <input
-                        type="text"
-                        name="inv_image"
-                        class="form__input"
-                        pattern=".*\.(png|jpg|jpeg|webp)$"
-                        title="Image must end with .png, .jpg, .jpeg, or .webp"
-                        placeholder="/images/vehicles/no-image.png"
-                        />
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_thumbnail" class="form__label">Thumbnail:</label>
-                        <input
-                        type="text"
-                        name="inv_thumbnail"
-                        class="form__input"
-                        pattern=".*\.(png|jpg|jpeg|webp)$"
-                        title="Thumbnail must end with .png, .jpg, .jpeg, or .webp"
-                        placeholder="/images/vehicles/no-image.png"
-                        />
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_price" class="form__label">Price:</label>
-                        <input
-                        type="text"
-                        name="inv_price"
-                        class="form__input"
-                        required
-                        pattern="\d+(\.\d{2})?"
-                        title="Please enter a valid price."
-                        value="<%= locals.inv_price %>"
-                        placeholder="Decimal or Integer"
-                        />
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_color" class="form__label">Color:</label>
-                        <input
-                        type="text"
-                        name="inv_color"
-                        class="form__input"
-                        required
-                        pattern="[A-Za-z ]{1,}"
-                        title="Color can only contain letters and spaces."
-                        value="<%= locals.inv_color %>"
-                        placeholder="e.g., red"
-                        />
-                    </div>
-    
-                    <div class="cse-motor-form__field">
-                        <!-- Element within Block: form__label -->
-                        <label for="inv_miles" class="form__label">Miles:</label>
-                        <input
-                        type="text"
-                        name="inv_miles"
-                        class="form__input"
-                        required
-                        pattern="\d+"
-                        title="Miles should only contain numbers."
-                        value="<%= locals.inv_miles %>"
-                        placeholder="Digits only"
-                        />
-                    </div>
-
-                </fieldset>
-
-                <!-- Element within Block: btn -->
-                <button type="submit" class="form__button">Add New Item</button>
-
-                <!-- Element within Block: form__register -->
-                <span class="form__add-inventory form-footer-link"><div>Adding a new classification? <a href="./add-classification" class="form__register-link">Add Classification</a></div></span>
-            </div>
-        </form>
     </div>
+
+    <div class="form-group">
+      <label for="inv_make">Make:</label>
+      <input type="text" name="inv_make" id="inv_make" 
+             value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>" 
+             pattern="[A-Za-z0-9 ]+" title="Letters, numbers, and spaces only" required>
+      <small>Min of 3 characters</small>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_model">Model:</label>
+      <input type="text" name="inv_model" id="inv_model" 
+             value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>" 
+             pattern="[A-Za-z0-9 ]+" title="Letters, numbers, and spaces only" required>
+      <small>Min of 3 characters</small>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_description">Description:</label>
+      <textarea name="inv_description" id="inv_description" 
+                required><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_image">Image Path:</label>
+      <input type="text" name="inv_image" id="inv_image" 
+             value="<%= typeof inv_image !== 'undefined' ? inv_image : '/images/vehicles/no-image.png' %>" 
+             pattern="/images/vehicles/.*\.(jpg|png)" 
+             title="Must be a valid image path (e.g., /images/vehicles/car.jpg)" required>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_thumbnail">Thumbnail Path:</label>
+      <input type="text" name="inv_thumbnail" id="inv_thumbnail" 
+             value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '/images/vehicles/no-image.png' %>" 
+             pattern="/images/vehicles/.*\.(jpg|png)" 
+             title="Must be a valid thumbnail path" required>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_price">Price:</label>
+      <input type="number" name="inv_price" id="inv_price" 
+             step="0.01" min="0" 
+             value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>" 
+             title="Price in dollars (e.g., 25000.99)" required>
+      <small>decimal or integer</small>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_year">Year:</label>
+      <input type="number" name="inv_year" id="inv_year" 
+             min="1900" max="<%= new Date().getFullYear() + 1 %>"
+             step="1" title="4-digit year" 
+             value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>" required>
+      <small>4-digit year</small>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_miles">Miles:</label>
+      <input type="number" name="inv_miles" id="inv_miles" 
+             step="1" title="Whole numbers only" 
+             value="<%= typeof inv_miles !== 'undefined' ? inv_miles : '' %>" min="0" required>
+      <small>digits only</small>
+    </div>
+
+    <div class="form-group">
+      <label for="inv_color">Color:</label>
+      <input type="text" name="inv_color" id="inv_color" 
+             value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>" 
+             pattern="[A-Za-z ]+" title="Letters and spaces only" required>
+    </div>
+
+    <button type="submit">Add Vehicle</button>
+  </form>
 </div>
